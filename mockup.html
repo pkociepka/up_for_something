@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Up for Something — UI Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 32px 20px 48px;
+  gap: 24px;
+}
+
+.page-label {
+  color: rgba(255,255,255,0.5);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ── Phone frame ── */
+.phone {
+  width: 390px;
+  height: 790px;
+  background: var(--bg-screen);
+  border-radius: 52px;
+  box-shadow:
+    0 0 0 10px #2a2a2a,
+    0 0 0 12px #3a3a3a,
+    0 50px 100px rgba(0,0,0,0.6);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Status bar */
+.status-bar {
+  height: 50px;
+  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px 0 32px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 20;
+}
+
+.status-time { font-size: 15px; font-weight: 700; color: var(--text); }
+.status-icons { display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--text); font-weight: 600; }
+
+/* Screen area */
+.screen-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  scrollbar-width: none;
+}
+.screen-area::-webkit-scrollbar { display: none; }
+
+/* Bottom nav */
+.bottom-nav {
+  height: 86px;
+  background: var(--bg-card);
+  border-top: 0.5px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  padding-top: 6px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 20;
+}
+
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  padding: 6px 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-label { font-size: 10px; font-weight: 500; }
+.nav-item { color: var(--text-3); }
+.nav-item.active { color: var(--orange); }
+
+.nav-plus-wrap {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-plus {
+  width: 50px;
+  height: 50px;
+  background: #FF6B35;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -20px;
+  box-shadow: 0 4px 16px rgba(255,107,53,0.5);
+  transition: transform 0.15s;
+}
+.nav-plus:active { transform: scale(0.93); }
+.nav-plus span { font-size: 28px; color: #fff; line-height: 1; margin-top: -2px; }
+
+/* ── Screens ── */
+.screen {
+  display: none;
+  min-height: 100%;
+  background: var(--bg-screen);
+}
+.screen.active { display: block; }
+
+/* Login screen special case */
+#s-login.active { display: flex; flex-direction: column; background: var(--bg-card); }
+
+/* ── Design tokens ── */
+:root {
+  /* Brand */
+  --orange: #FF6B35;
+  --orange-light: #FFF0EB;
+
+  /* Backgrounds */
+  --bg-screen: #F2F2F7;
+  --bg-card:   #FFFFFF;
+  --bg-input:  #F2F2F7;
+
+  /* Text */
+  --text:   #1C1C1E;
+  --text-2: #3C3C43;
+  --text-3: #8E8E93;
+
+  /* Semantic */
+  --green:       #30D158;
+  --green-light: #E8F8EE;
+  --red:         #FF453A;
+  --red-light:   #FFE5E3;
+  --blue:        #0A84FF;
+
+  /* Separators */
+  --border:       #E5E5EA;
+  --border-light: #F2F2F7;
+
+  /* Misc */
+  --bg-unread: #FFFAF8;
+  --av-border: #FFFFFF;
+
+  /* Aliases (keep --white / --surface for existing CSS) */
+  --white:   var(--bg-card);
+  --surface: var(--bg-screen);
+
+  --radius-card: 16px;
+  --radius-btn:  20px;
+}
+
+/* ── Dark theme ── */
+.phone.dark {
+  --orange-light: #3D1A0A;
+  --bg-screen:    #000000;
+  --bg-card:      #1C1C1E;
+  --bg-input:     #2C2C2E;
+  --text:         #FFFFFF;
+  --text-2:       #9A9AAF;
+  --text-3:       #636370;
+  --green-light:  #0C2A14;
+  --red-light:    #2D0D0C;
+  --border:       #38383A;
+  --border-light: #2C2C2E;
+  --bg-unread:    #221A15;
+  --av-border:    #1C1C1E;
+  /* Explicit alias overrides — browsers don't always re-resolve var() aliases
+     defined in :root when the referenced variable is overridden in a scoped selector */
+  --white:   #1C1C1E;
+  --surface: #000000;
+}
+
+/* ── Common components ── */
+
+.screen-header {
+  background: var(--white);
+  padding: 14px 20px;
+  border-bottom: 0.5px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Lucide-style SVG icon */
+.ico {
+  display: block;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.back-btn {
+  color: var(--orange);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2px;
+  border-radius: 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.screen-title { font-size: 17px; font-weight: 700; color: var(--text); flex: 1; }
+
+.section-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 16px 20px 8px;
+}
+
+/* Avatars */
+.av {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.av-s { width: 30px; height: 30px; font-size: 12px; }
+.av-m { width: 40px; height: 40px; font-size: 16px; }
+.av-l { width: 76px; height: 76px; font-size: 30px; }
+.av-orange { background: #FF6B35; }
+.av-pink   { background: #FF375F; }
+.av-blue   { background: #0A84FF; }
+.av-purple { background: #BF5AF2; }
+.av-green  { background: #30D158; }
+.av-teal   { background: #32ADE6; }
+
+/* Buttons */
+.btn {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border-radius: var(--radius-btn);
+  transition: opacity 0.1s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active { opacity: 0.8; transform: scale(0.97); }
+
+.btn-sm  { padding: 7px 14px; font-size: 13px; }
+.btn-md  { padding: 10px 20px; font-size: 15px; }
+.btn-full { width: 100%; padding: 15px; font-size: 16px; border-radius: 14px; }
+
+.btn-primary { background: var(--orange); color: #fff; }
+.btn-secondary { background: var(--surface); color: var(--text); }
+.btn-outline-orange { background: transparent; border: 1.5px solid var(--orange); color: var(--orange); }
+.btn-outline-red { background: transparent; border: 1.5px solid var(--red); color: var(--red); }
+.btn-green { background: var(--green-light); color: var(--green); }
+.btn-red   { background: var(--red); color: #fff; }
+.btn-muted { background: var(--surface); color: var(--text-3); }
+
+/* Chips */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.2px;
+}
+.chip-orange  { background: var(--orange-light); color: var(--orange); }
+.chip-red     { background: var(--red-light); color: var(--red); }
+.chip-green   { background: var(--green-light); color: var(--green); }
+.chip-gray    { background: var(--surface); color: var(--text-3); }
+.chip-private { background: var(--surface); color: var(--text-3); }
+
+/* Action bar (sticky bottom) */
+.action-bar {
+  position: sticky;
+  bottom: 0;
+  background: var(--white);
+  border-top: 0.5px solid var(--border);
+  padding: 12px 16px 12px;
+}
+
+/* ── FEED ── */
+.feed-header {
+  background: var(--white);
+  padding: 14px 20px;
+  border-bottom: 0.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.feed-logo { font-size: 20px; font-weight: 800; color: var(--text); }
+.feed-logo em { font-style: normal; color: var(--orange); }
+
+.activity-card {
+  background: var(--white);
+  border-radius: var(--radius-card);
+  margin: 0 14px 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.12s;
+}
+.activity-card:active { transform: scale(0.98); }
+
+.card-top {
+  padding: 12px 14px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-creator { display: flex; align-items: center; gap: 8px; }
+.card-creator-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.card-time { font-size: 12px; color: var(--text-3); }
+
+.card-body { padding: 10px 14px 14px; }
+.card-cat { margin-bottom: 5px; }
+.card-title { font-size: 19px; font-weight: 800; color: var(--text); line-height: 1.2; margin-bottom: 9px; }
+
+.card-meta { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+.card-meta-row { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--text-2); }
+.card-meta-row .ico { color: var(--text-3); }
+
+.card-footer {
+  padding-top: 10px;
+  border-top: 0.5px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.avatar-stack { display: flex; }
+.avatar-stack .av { border: 2px solid var(--av-border); margin-left: -6px; }
+.avatar-stack .av:first-child { margin-left: 0; }
+
+.pax-info { display: flex; align-items: center; gap: 7px; }
+.pax-count { font-size: 12px; color: var(--text-3); font-weight: 500; }
+
+.card-cancelled { opacity: 0.45; pointer-events: none; }
+
+/* Confirmation modal */
+.modal-backdrop {
+  display: none;
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 200;
+  align-items: flex-end;
+  border-radius: inherit;
+}
+.modal-backdrop.open { display: flex; }
+.modal-sheet {
+  width: 100%;
+  background: var(--bg-card);
+  border-radius: 20px 20px 0 0;
+  padding: 8px 16px 32px;
+}
+.modal-handle {
+  width: 36px; height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 8px auto 20px;
+}
+.modal-title { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.modal-body  { font-size: 14px; color: var(--text-3); line-height: 1.55; margin-bottom: 24px; }
+
+.invite-actions { display: flex; gap: 8px; width: 100%; }
+.invite-actions .btn { flex: 1; }
+
+/* ── ACTIVITY DETAIL ── */
+.detail-hero {
+  background: var(--white);
+  padding: 20px 20px 16px;
+  border-bottom: 0.5px solid var(--border-light);
+}
+
+.detail-title { font-size: 26px; font-weight: 800; color: var(--text); line-height: 1.15; margin: 10px 0 14px; }
+
+.creator-row { display: flex; align-items: center; gap: 10px; }
+.creator-label { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600; }
+.creator-name-link { font-size: 15px; font-weight: 600; color: var(--blue); cursor: pointer; }
+
+.info-card {
+  background: var(--white);
+  border-radius: var(--radius-card);
+  margin: 12px 14px 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 0.5px solid var(--border-light);
+  cursor: default;
+}
+.info-row:last-child { border-bottom: none; }
+.info-row.tappable { cursor: pointer; }
+.info-row.tappable:active { background: var(--surface); }
+
+.info-icon-wrap {
+  width: 36px;
+  height: 36px;
+  background: var(--orange-light);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.info-label { font-size: 11px; color: var(--text-3); font-weight: 500; margin-bottom: 2px; }
+.info-value { font-size: 15px; color: var(--text); font-weight: 500; line-height: 1.35; }
+.info-value.link { color: var(--blue); }
+.info-note { font-size: 13px; color: var(--text-3); margin-top: 1px; }
+
+.spots-section { margin-top: 12px; }
+.spots-header { display: flex; justify-content: space-between; align-items: center; padding: 0 16px; margin-bottom: 6px; }
+.spots-title { font-size: 12px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; }
+.spots-count { font-size: 12px; color: var(--text-3); }
+
+.spots-bar { height: 5px; background: var(--border-light); border-radius: 3px; margin: 0 16px 4px; overflow: hidden; }
+.spots-fill { height: 100%; background: var(--orange); border-radius: 3px; }
+
+.pax-list { padding: 4px 0; }
+.pax-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  border-bottom: 0.5px solid var(--border-light);
+}
+.pax-row:last-child { border-bottom: none; }
+.pax-name { font-size: 15px; font-weight: 500; color: var(--text); flex: 1; }
+.pax-sub { font-size: 12px; color: var(--text-3); }
+
+/* ── CREATE ── */
+.form-wrap { padding: 14px 14px 24px; }
+.form-group { margin-bottom: 14px; }
+.form-label { font-size: 11px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px; padding-left: 2px; }
+
+.form-input {
+  width: 100%;
+  background: var(--bg-input);
+  border: none;
+  border-radius: 12px;
+  padding: 13px 14px;
+  font-size: 15px;
+  color: var(--text);
+  font-family: inherit;
+  outline: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.form-input::placeholder { color: var(--text-3); }
+
+textarea.form-input { resize: none; line-height: 1.5; }
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.cat-chip {
+  background: var(--bg-input);
+  border-radius: 12px;
+  padding: 10px 4px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  transition: all 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.cat-chip.selected { background: var(--orange-light); border-color: var(--orange); }
+.cat-chip { color: var(--text-3); }
+.cat-chip.selected { color: var(--orange); }
+.cat-label { font-size: 10px; color: var(--text-3); font-weight: 600; text-align: center; line-height: 1.2; }
+.cat-chip.selected .cat-label { color: var(--orange); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.stepper {
+  background: var(--bg-input);
+  border-radius: 12px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.stepper-btn { font-size: 22px; color: var(--orange); width: 32px; text-align: center; cursor: pointer; font-weight: 700; }
+.stepper-val { flex: 1; text-align: center; font-size: 17px; font-weight: 700; color: var(--text); }
+
+.visibility-toggle { display: flex; background: var(--bg-input); border-radius: 12px; padding: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.vis-option {
+  flex: 1;
+  padding: 9px 8px;
+  border-radius: 9px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.vis-option.active { background: var(--orange); color: #fff; box-shadow: 0 2px 8px rgba(255,107,53,0.4); }
+
+.invitee-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.invitee-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--orange-light);
+  border-radius: 20px;
+  padding: 5px 10px 5px 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--orange);
+}
+.invitee-chip-x { font-size: 14px; cursor: pointer; }
+.add-invitee-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-3);
+  cursor: pointer;
+}
+
+/* ── SEARCH ── */
+.search-top {
+  background: var(--white);
+  padding: 10px 14px;
+  border-bottom: 0.5px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+.search-bar {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: var(--text-3);
+}
+
+.user-row {
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 0.5px solid var(--border-light);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.user-row:active { background: var(--surface); }
+.user-name { font-size: 15px; font-weight: 600; color: var(--text); }
+.user-handle { font-size: 13px; color: var(--text-3); }
+
+/* ── NOTIFICATIONS ── */
+.notif-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--white);
+  border-bottom: 0.5px solid var(--border-light);
+}
+.notif-row.unread { background: var(--bg-unread); }
+.unread-dot { width: 8px; height: 8px; background: var(--orange); border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+.no-dot { width: 8px; flex-shrink: 0; }
+.notif-body { flex: 1; }
+.notif-text { font-size: 14px; color: var(--text); line-height: 1.45; }
+.notif-text strong { font-weight: 700; }
+.notif-time { font-size: 12px; color: var(--text-3); margin-top: 3px; }
+.notif-btns { display: flex; gap: 8px; margin-top: 8px; }
+
+/* ── PROFILE ── */
+.profile-top {
+  background: var(--white);
+  padding: 28px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.profile-name { font-size: 22px; font-weight: 800; color: var(--text); margin-top: 12px; }
+.profile-handle { font-size: 14px; color: var(--text-3); margin-top: 2px; }
+.profile-bio { font-size: 14px; color: var(--text-2); margin-top: 8px; line-height: 1.45; max-width: 250px; }
+
+.profile-stats { display: flex; gap: 36px; margin-top: 18px; }
+.stat-val { font-size: 21px; font-weight: 800; color: var(--text); }
+.stat-lbl { font-size: 12px; color: var(--text-3); font-weight: 500; margin-top: 1px; }
+.stat { text-align: center; }
+
+.tabs {
+  display: flex;
+  background: var(--white);
+  border-bottom: 0.5px solid var(--border);
+}
+.tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-3);
+  cursor: pointer;
+  border-bottom: 2.5px solid transparent;
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.tab.active { color: var(--orange); border-bottom-color: var(--orange); }
+
+.mini-card {
+  background: var(--white);
+  border-radius: var(--radius-card);
+  margin: 0 14px 10px;
+  padding: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.mini-card:active { opacity: 0.85; }
+.mini-top { display: flex; align-items: flex-start; gap: 10px; }
+.mini-emoji { width:36px;height:36px;border-radius:10px;background:var(--orange-light);display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0; }
+.mini-title { font-size: 15px; font-weight: 700; color: var(--text); }
+.mini-meta { font-size: 13px; color: var(--text-3); margin-top: 2px; }
+.mini-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 10px; border-top: 0.5px solid var(--border-light); }
+
+/* ── LOGIN ── */
+.login-body { flex: 1; padding: 0 24px; display: flex; flex-direction: column; justify-content: center; }
+.login-logo { font-size: 30px; font-weight: 900; color: var(--text); text-align: center; margin-bottom: 4px; }
+.login-logo em { font-style: normal; color: var(--orange); }
+.login-sub { text-align: center; font-size: 15px; color: var(--text-3); line-height: 1.5; margin-bottom: 44px; }
+.login-input {
+  width: 100%;
+  background: var(--surface);
+  border: none;
+  border-radius: 13px;
+  padding: 14px 16px;
+  font-size: 16px;
+  color: var(--text);
+  font-family: inherit;
+  outline: none;
+  margin-bottom: 12px;
+  display: block;
+}
+.login-input::placeholder { color: var(--text-3); }
+.divider { display: flex; align-items: center; gap: 12px; color: var(--border); font-size: 13px; margin: 18px 0; }
+.divider::before, .divider::after { content: ''; flex: 1; height: 0.5px; background: var(--border); }
+.social-btn {
+  width: 100%;
+  background: var(--surface);
+  border: none;
+  border-radius: 13px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  transition: background 0.15s;
+}
+.social-btn:active { background: var(--border); }
+.login-footer { text-align: center; padding: 20px 24px 40px; font-size: 14px; color: var(--text-3); }
+.login-footer a { color: var(--orange); font-weight: 600; cursor: pointer; }
+
+/* Screen nav helper */
+.screen-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  max-width: 480px;
+}
+.snav-btn {
+  padding: 6px 12px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  color: rgba(255,255,255,0.75);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  letter-spacing: 0.3px;
+}
+.snav-btn:hover { background: rgba(255,255,255,0.22); color: #fff; }
+.snav-btn.current { background: #FF6B35; border-color: #FF6B35; color: #fff; }
+</style>
+</head>
+<body>
+
+<div class="page-label">Up for Something — Interactive UI Mockup</div>
+
+<button id="theme-toggle" onclick="toggleTheme()" style="
+  padding: 8px 18px;
+  background: rgba(255,255,255,0.13);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 20px;
+  color: rgba(255,255,255,0.85);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+  transition: background 0.2s;
+">☀️ Light mode</button>
+
+<!-- ═══════════════════════ SVG ICON SPRITE ═══════════════════════ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <!-- Navigation -->
+  <symbol id="ico-home"   viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+  <symbol id="ico-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/></symbol>
+  <symbol id="ico-bell"   viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+  <symbol id="ico-user"   viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <!-- UI chrome -->
+  <symbol id="ico-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="ico-calendar"    viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></symbol>
+  <symbol id="ico-map-pin"     viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="ico-message"     viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="ico-lock"        viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="ico-check"       viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="ico-x"           viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="ico-users"       viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="ico-pencil"      viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></symbol>
+  <symbol id="ico-sun"         viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></symbol>
+  <symbol id="ico-plus-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></symbol>
+  <symbol id="ico-user-plus"   viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></symbol>
+  <!-- Categories -->
+  <symbol id="ico-dumbbell"      viewBox="0 0 24 24"><circle cx="5" cy="12" r="3"/><circle cx="19" cy="12" r="3"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="9.5" x2="8" y2="14.5"/><line x1="16" y1="9.5" x2="16" y2="14.5"/></symbol>
+  <symbol id="ico-dice"          viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M16 8h.01"/><path d="M8 8h.01"/><path d="M8 16h.01"/><path d="M16 16h.01"/><path d="M12 12h.01"/></symbol>
+  <symbol id="ico-gamepad"       viewBox="0 0 24 24"><line x1="6" x2="10" y1="12" y2="12"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="15" x2="15.01" y1="13" y2="13"/><line x1="18" x2="18.01" y1="11" y2="11"/><rect width="20" height="12" x="2" y="6" rx="2"/></symbol>
+  <symbol id="ico-film"          viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M3 7.5h4"/><path d="M3 12h18"/><path d="M3 16.5h4"/><path d="M17 3v18"/><path d="M17 7.5h4"/><path d="M17 16.5h4"/></symbol>
+  <symbol id="ico-music"         viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+  <symbol id="ico-coffee"        viewBox="0 0 24 24"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></symbol>
+  <symbol id="ico-mountain-snow" viewBox="0 0 24 24"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/><path d="M4.14 15.08c2.62-1.57 5.24-1.43 7.86.42 2.74 1.94 5.49 2 8.23.19"/></symbol>
+  <symbol id="ico-more"          viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></symbol>
+</svg>
+
+<!-- ═══════════════════════════════ PHONE ═══════════════════════════════ -->
+<div class="phone" id="phone">
+
+  <!-- Status bar -->
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <span>●●●</span>&nbsp;<span>WiFi</span>&nbsp;<span>🔋</span>
+    </div>
+  </div>
+
+  <!-- Screen area -->
+  <div class="screen-area" id="screen-area">
+
+    <!-- ───────────── LOGIN ───────────── -->
+    <div class="screen" id="s-login">
+      <div class="login-body">
+        <div class="login-logo">up for <em>something?</em></div>
+        <div class="login-sub">Find people to do things with,<br>right now.</div>
+        <input class="login-input" placeholder="Email" type="email">
+        <input class="login-input" placeholder="Password" type="password">
+        <button class="btn btn-primary btn-full" onclick="go('s-feed',0)">Sign In</button>
+        <div class="divider">or</div>
+        <button class="social-btn" onclick="go('s-feed',0)">🍎 &nbsp;Continue with Apple</button>
+        <button class="social-btn" onclick="go('s-feed',0)">🔵 &nbsp;Continue with Google</button>
+      </div>
+      <div class="login-footer">Don't have an account? <a onclick="go('s-feed',0)">Sign up</a></div>
+    </div>
+
+    <!-- ───────────── FEED ───────────── -->
+    <div class="screen active" id="s-feed">
+      <div class="feed-header">
+        <div class="feed-logo">up for <em>sth</em></div>
+      </div>
+
+      <div style="padding: 12px 0 20px;">
+        <div class="section-label">Upcoming</div>
+
+        <!-- Card 1: Morning Run (join available) -->
+        <div class="activity-card" onclick="go('s-detail-open')">
+          <div class="card-top">
+            <div class="card-creator">
+              <div class="av av-s av-pink">AM</div>
+              <span class="card-creator-name">Anna M.</span>
+            </div>
+            <span class="card-time">2h ago</span>
+          </div>
+          <div class="card-body">
+            <div class="card-cat"><span class="chip chip-orange"><svg class="ico" width="11" height="11"><use href="#ico-dumbbell"/></svg>Sports</span></div>
+            <div class="card-title">Morning Run 5K</div>
+            <div class="card-meta">
+              <div class="card-meta-row"><svg class="ico" width="14" height="14"><use href="#ico-calendar"/></svg><span>Tomorrow · 7:00 AM</span></div>
+              <div class="card-meta-row"><svg class="ico" width="14" height="14"><use href="#ico-map-pin"/></svg><span>Park Szczytnicki, Wrocław</span></div>
+            </div>
+            <div class="card-footer">
+              <div class="pax-info">
+                <div class="avatar-stack">
+                  <div class="av av-s av-pink">AM</div>
+                  <div class="av av-s av-blue">MR</div>
+                  <div class="av av-s av-green">JK</div>
+                </div>
+                <span class="pax-count">3 / 8</span>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="event.stopPropagation()">Join</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Board Game Night (joined) -->
+        <div class="activity-card" onclick="go('s-detail-open')">
+          <div class="card-top">
+            <div class="card-creator">
+              <div class="av av-s av-blue">TW</div>
+              <span class="card-creator-name">Tomek W.</span>
+            </div>
+            <span class="card-time">5h ago</span>
+          </div>
+          <div class="card-body">
+            <div class="card-cat"><span class="chip chip-orange"><svg class="ico" width="11" height="11"><use href="#ico-dice"/></svg>Board Games</span></div>
+            <div class="card-title">Board Game Night</div>
+            <div class="card-meta">
+              <div class="card-meta-row"><svg class="ico" width="14" height="14"><use href="#ico-calendar"/></svg><span>Saturday · 7:00 PM</span></div>
+              <div class="card-meta-row"><svg class="ico" width="14" height="14"><use href="#ico-map-pin"/></svg><span>Tomek's place</span></div>
+            </div>
+            <div class="card-footer">
+              <div class="pax-info">
+                <div class="avatar-stack">
+                  <div class="av av-s av-blue">TW</div>
+                  <div class="av av-s av-orange">PK</div>
+                  <div class="av av-s av-pink">AM</div>
+                </div>
+                <span class="pax-count">5 going</span>
+              </div>
+              <button class="btn btn-green btn-sm" onclick="event.stopPropagation()" style="display:inline-flex;align-items:center;gap:5px;"><svg class="ico" width="14" height="14"><use href="#ico-check"/></svg> Joined</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Movie Night (private invite) -->
+        <div class="activity-card" onclick="go('s-detail-private')">
+          <div class="card-top">
+            <div class="card-creator">
+              <div class="av av-s av-purple">KB</div>
+              <span class="card-creator-name">Kasia B.</span>
+            </div>
+            <div style="display:flex;gap:7px;align-items:center;">
+              <span class="chip chip-private"><svg class="ico" width="11" height="11"><use href="#ico-lock"/></svg>Private</span>
+              <span class="card-time">Yesterday</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-cat"><span class="chip chip-orange"><svg class="ico" width="11" height="11"><use href="#ico-film"/></svg>Movies</span></div>
+            <div class="card-title">Movie Night — Dune 3</div>
+            <div class="card-meta">
+              <div class="card-meta-row"><svg class="ico" width="14" height="14"><use href="#ico-calendar"/></svg><span>Friday · 8:30 PM</span></div>
+              <div class="card-meta-row"><svg class="ico" width="14" height="14"><use href="#ico-map-pin"/></svg><span>Helios Cinema, Wrocław</span></div>
+            </div>
+            <div class="card-footer" style="flex-direction:column; align-items:flex-start; gap:8px;">
+              <span style="font-size:13px;color:var(--text-3);">🎉 You're invited</span>
+              <div class="invite-actions" onclick="event.stopPropagation()">
+                <button class="btn btn-outline-red btn-sm">Decline</button>
+                <button class="btn btn-primary btn-sm">Accept</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Tennis (cancelled) -->
+        <div class="activity-card card-cancelled">
+          <div class="card-top">
+            <div class="card-creator">
+              <div class="av av-s av-teal">MR</div>
+              <span class="card-creator-name">Marco R.</span>
+            </div>
+            <span class="card-time">2d ago</span>
+          </div>
+          <div class="card-body">
+            <div class="card-cat"><span class="chip chip-red"><svg class="ico" width="11" height="11"><use href="#ico-x"/></svg>Cancelled</span></div>
+            <div class="card-title">Tennis Doubles</div>
+            <div class="card-meta">
+              <div class="card-meta-row"><svg class="ico" width="14" height="14"><use href="#ico-calendar"/></svg><span>Sunday · 10:00 AM</span></div>
+              <div class="card-meta-row"><svg class="ico" width="14" height="14"><use href="#ico-map-pin"/></svg><span>Tennis Club Olimpia</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ───────────── DETAIL: FOLLOWERS ACTIVITY ───────────── -->
+    <div class="screen" id="s-detail-open">
+      <div class="screen-header">
+        <div class="back-btn" onclick="go('s-feed',0)"><svg class="ico" width="26" height="26"><use href="#ico-chevron-left"/></svg></div>
+        <span class="screen-title">Activity</span>
+      </div>
+
+      <div class="detail-hero">
+        <span class="chip chip-orange"><svg class="ico" width="11" height="11"><use href="#ico-dumbbell"/></svg>Sports</span>
+        <div class="detail-title">Morning Run 5K</div>
+        <div class="creator-row">
+          <div class="av av-m av-pink">AM</div>
+          <div>
+            <div class="creator-label">Organised by</div>
+            <div class="creator-name-link" onclick="go('s-profile-other')">Anna M.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-row">
+          <div class="info-icon-wrap"><svg class="ico" width="18" height="18"><use href="#ico-calendar"/></svg></div>
+          <div>
+            <div class="info-label">When</div>
+            <div class="info-value">Tomorrow · 7:00 AM</div>
+          </div>
+        </div>
+        <div class="info-row tappable" onclick="alert('Opening Maps with directions from your location…')">
+          <div class="info-icon-wrap"><svg class="ico" width="18" height="18"><use href="#ico-map-pin"/></svg></div>
+          <div>
+            <div class="info-label">Where</div>
+            <div class="info-value link">Park Szczytnicki, Wrocław ↗</div>
+            <div class="info-note">Tap to open Maps</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon-wrap"><svg class="ico" width="18" height="18"><use href="#ico-message"/></svg></div>
+          <div>
+            <div class="info-label">Note</div>
+            <div class="info-value" style="font-weight:400;font-size:14px;">Up for a morning run? Meet at the main gate, bring water! 💧</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spots section: toggled by showDetailView() -->
+      <div class="spots-section" id="detail-spots-capped">
+        <div class="spots-header">
+          <span class="spots-title">Who's going</span>
+          <span id="detail-spots-count" class="spots-count">3 of 8 spots</span>
+        </div>
+        <div class="spots-bar"><div class="spots-fill" id="detail-spots-fill" style="width:37.5%"></div></div>
+      </div>
+      <div class="spots-section" id="detail-spots-unlimited" style="display:none;">
+        <div class="spots-header">
+          <span class="spots-title">Who's going</span>
+          <span class="spots-count">3 going · No limit</span>
+        </div>
+      </div>
+
+      <div class="info-card" style="margin-top:8px; margin-bottom:100px;">
+        <div class="pax-list">
+          <div class="pax-row">
+            <div class="av av-s av-pink">AM</div>
+            <span class="pax-name">Anna M.</span>
+            <span class="chip chip-orange" style="font-size:10px;">organiser</span>
+          </div>
+          <div class="pax-row">
+            <div class="av av-s av-blue">MR</div>
+            <span class="pax-name">Marco R.</span>
+          </div>
+          <div class="pax-row">
+            <div class="av av-s av-green">JK</div>
+            <span class="pax-name">Julia K.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action bars — only one visible at a time -->
+      <div class="action-bar" id="detail-action-join">
+        <button class="btn btn-primary btn-full">Join Activity</button>
+      </div>
+      <div class="action-bar" id="detail-action-full" style="display:none;flex-direction:column;gap:6px;">
+        <button class="btn btn-full" disabled style="background:var(--border);color:var(--text-3);cursor:not-allowed;">No spots left</button>
+        <div style="font-size:12px;color:var(--text-3);text-align:center;">This activity is full</div>
+      </div>
+      <div class="action-bar" id="action-bar-creator" style="display:none;">
+        <button class="btn btn-outline-red btn-full" onclick="openCancelModal()">Cancel Activity</button>
+      </div>
+
+      <!-- Cancellation confirmation modal -->
+      <div class="modal-backdrop" id="cancel-modal">
+        <div class="modal-sheet">
+          <div class="modal-handle"></div>
+          <div class="modal-title">Cancel this activity?</div>
+          <div class="modal-body">Everyone who joined will be notified. This cannot be undone.</div>
+          <button class="btn btn-red btn-full" style="margin-bottom:10px;" onclick="closeCancelModal()">Yes, cancel it</button>
+          <button class="btn btn-secondary btn-full" onclick="closeCancelModal()">Keep it</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ───────────── DETAIL: PRIVATE ACTIVITY (invitee view) ───────────── -->
+    <div class="screen" id="s-detail-private">
+      <div class="screen-header">
+        <div class="back-btn" onclick="go('s-feed',0)"><svg class="ico" width="26" height="26"><use href="#ico-chevron-left"/></svg></div>
+        <span class="screen-title">Private Activity</span>
+        <svg class="ico" style="margin-left:auto;color:var(--text-3)" width="18" height="18"><use href="#ico-lock"/></svg>
+      </div>
+
+      <div class="detail-hero">
+        <span class="chip chip-orange"><svg class="ico" width="11" height="11"><use href="#ico-film"/></svg>Movies</span>
+        <div class="detail-title">Movie Night — Dune 3</div>
+        <div class="creator-row">
+          <div class="av av-m av-purple">KB</div>
+          <div>
+            <div class="creator-label">Organised by</div>
+            <div class="creator-name-link" onclick="go('s-profile-other')">Kasia B.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-row">
+          <div class="info-icon-wrap"><svg class="ico" width="18" height="18"><use href="#ico-calendar"/></svg></div>
+          <div>
+            <div class="info-label">When</div>
+            <div class="info-value">Friday · 8:30 PM</div>
+          </div>
+        </div>
+        <div class="info-row tappable" onclick="alert('Opening Maps with directions from your location…')">
+          <div class="info-icon-wrap"><svg class="ico" width="18" height="18"><use href="#ico-map-pin"/></svg></div>
+          <div>
+            <div class="info-label">Where</div>
+            <div class="info-value link">Helios Cinema, Wrocław ↗</div>
+            <div class="info-note">Tap to open Maps</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon-wrap"><svg class="ico" width="18" height="18"><use href="#ico-message"/></svg></div>
+          <div>
+            <div class="info-label">Note</div>
+            <div class="info-value" style="font-weight:400;font-size:14px;">Dune: Part Three — IMAX screening! 🚀 Let's grab food at 7pm before.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Invitation list -->
+      <div class="spots-section" style="margin-top:14px;">
+        <div class="spots-header">
+          <span class="spots-title">Invited</span>
+        </div>
+      </div>
+
+      <div class="info-card" style="margin-top:4px;margin-bottom:100px;">
+        <div class="pax-list">
+          <div class="pax-row">
+            <div class="av av-s av-purple">KB</div>
+            <div style="flex:1"><div class="pax-name">Kasia B.</div></div>
+            <span class="chip chip-orange" style="font-size:10px;">organiser</span>
+          </div>
+          <div class="pax-row">
+            <div class="av av-s av-orange">PK</div>
+            <div style="flex:1">
+              <div class="pax-name">You</div>
+            </div>
+            <span class="chip chip-gray">Pending</span>
+          </div>
+          <div class="pax-row">
+            <div class="av av-s av-blue">MR</div>
+            <div style="flex:1"><div class="pax-name">Marco R.</div></div>
+            <span class="chip chip-green">Accepted</span>
+          </div>
+          <div class="pax-row">
+            <div class="av av-s av-green">JK</div>
+            <div style="flex:1"><div class="pax-name">Julia K.</div></div>
+            <span class="chip chip-gray">Pending</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <div style="display:flex;gap:10px;">
+          <button class="btn btn-outline-red btn-full" style="flex:1;">Decline</button>
+          <button class="btn btn-primary btn-full" style="flex:1;">Accept</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ───────────── CREATE ACTIVITY ───────────── -->
+    <div class="screen" id="s-create">
+      <div class="screen-header">
+        <span class="screen-title">New Activity</span>
+        <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="go('s-feed',0)">Publish</button>
+      </div>
+
+      <div class="form-wrap">
+
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <div class="cat-grid">
+            <div class="cat-chip selected"><svg class="ico" width="24" height="24"><use href="#ico-dumbbell"/></svg><span class="cat-label">Sports</span></div>
+            <div class="cat-chip"><svg class="ico" width="24" height="24"><use href="#ico-dice"/></svg><span class="cat-label">Board Games</span></div>
+            <div class="cat-chip"><svg class="ico" width="24" height="24"><use href="#ico-gamepad"/></svg><span class="cat-label">Video Games</span></div>
+            <div class="cat-chip"><svg class="ico" width="24" height="24"><use href="#ico-film"/></svg><span class="cat-label">Movies</span></div>
+            <div class="cat-chip"><svg class="ico" width="24" height="24"><use href="#ico-music"/></svg><span class="cat-label">Music</span></div>
+            <div class="cat-chip"><svg class="ico" width="24" height="24"><use href="#ico-coffee"/></svg><span class="cat-label">Food & Drinks</span></div>
+            <div class="cat-chip"><svg class="ico" width="24" height="24"><use href="#ico-mountain-snow"/></svg><span class="cat-label">Outdoors</span></div>
+            <div class="cat-chip"><svg class="ico" width="24" height="24"><use href="#ico-more"/></svg><span class="cat-label">Other</span></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Title</label>
+          <input class="form-input" placeholder="What are you up for?" value="Morning Run 5K">
+        </div>
+
+        <div class="form-group two-col">
+          <div>
+            <label class="form-label">Date</label>
+            <input class="form-input" type="date" value="2026-07-06">
+          </div>
+          <div>
+            <label class="form-label">Time</label>
+            <input class="form-input" type="time" value="07:00">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Location</label>
+          <input class="form-input" placeholder="Place name" value="Park Szczytnicki, Wrocław">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Max participants <span style="color:var(--text-3);font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+          <div class="stepper">
+            <span class="stepper-btn">−</span>
+            <span class="stepper-val">8</span>
+            <span class="stepper-btn">+</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Description <span style="color:var(--text-3);font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+          <textarea class="form-input" rows="3" placeholder="Any details for participants…"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Visibility</label>
+          <div class="visibility-toggle" id="vis-toggle">
+            <div class="vis-option active" id="vis-followers" onclick="setVisibility('followers')"><svg class="ico" width="16" height="16"><use href="#ico-users"/></svg>Followers</div>
+            <div class="vis-option" id="vis-private" onclick="setVisibility('private')"><svg class="ico" width="16" height="16"><use href="#ico-lock"/></svg>Private</div>
+          </div>
+        </div>
+
+        <div id="invitees-group" class="form-group" style="display:none;">
+          <label class="form-label">Invite people</label>
+          <div class="invitee-chips">
+            <div class="invitee-chip">
+              <div class="av av-s av-blue">TW</div>
+              <span>Tomek W.</span>
+              <span class="invitee-chip-x">×</span>
+            </div>
+            <div class="invitee-chip">
+              <div class="av av-s av-green">JK</div>
+              <span>Julia K.</span>
+              <span class="invitee-chip-x">×</span>
+            </div>
+            <div class="add-invitee-chip">＋ Add</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ───────────── FEED: EMPTY STATE ───────────── -->
+    <div class="screen" id="s-feed-empty">
+      <div class="feed-header">
+        <div class="feed-logo">up for <em>sth</em></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 32px 40px;text-align:center;min-height:560px;">
+
+        <div style="position:relative;margin-bottom:32px;">
+          <div style="width:96px;height:96px;background:var(--orange-light);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--orange);"><svg class="ico" width="44" height="44"><use href="#ico-sun"/></svg></div>
+          <div style="position:absolute;bottom:-4px;right:-8px;width:38px;height:38px;background:var(--bg-card);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">?</div>
+        </div>
+
+        <div style="font-size:22px;font-weight:800;color:var(--text);margin-bottom:10px;line-height:1.2;">No plans yet</div>
+        <div style="font-size:15px;color:var(--text-3);line-height:1.6;max-width:260px;margin-bottom:40px;">Connect with friends to see what they're up to, or kick things off yourself.</div>
+
+        <div style="display:flex;flex-direction:column;gap:12px;width:100%;">
+
+          <button class="btn btn-primary btn-full" onclick="go('s-search',1)" style="display:flex;align-items:center;gap:10px;justify-content:center;">
+            <svg class="ico" width="20" height="20"><use href="#ico-search"/></svg>
+            <div style="text-align:left;">
+              <div style="font-size:15px;font-weight:700;">Find friends</div>
+              <div style="font-size:12px;font-weight:500;opacity:0.8;">See their activities in your feed</div>
+            </div>
+          </button>
+
+          <button class="btn btn-outline-orange btn-full" onclick="go('s-create',2)" style="display:flex;align-items:center;gap:10px;justify-content:center;">
+            <svg class="ico" width="20" height="20"><use href="#ico-plus-circle"/></svg>
+            <div style="text-align:left;">
+              <div style="font-size:15px;font-weight:700;">Create an activity</div>
+              <div style="font-size:12px;font-weight:500;opacity:0.7;">Invite people who follow you</div>
+            </div>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ───────────── SEARCH ───────────── -->
+    <div class="screen" id="s-search">
+      <div class="search-top">
+        <div class="search-bar"><svg class="ico" width="16" height="16"><use href="#ico-search"/></svg><span>Search people…</span></div>
+      </div>
+      <div style="padding-top:10px;">
+        <div class="section-label">Suggestions</div>
+        <div style="background:var(--white);border-radius:var(--radius-card);margin:0 14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+          <div class="user-row" onclick="go('s-profile-other')">
+            <div class="av av-m av-pink">AM</div>
+            <div style="flex:1"><div class="user-name">Anna M.</div><div class="user-handle">@annam · 21 activities</div></div>
+            <button class="btn btn-primary btn-sm" onclick="event.stopPropagation()">Follow</button>
+          </div>
+          <div class="user-row" onclick="go('s-profile-other')">
+            <div class="av av-m av-teal">MR</div>
+            <div style="flex:1"><div class="user-name">Marco R.</div><div class="user-handle">@marcor · 8 activities</div></div>
+            <button class="btn btn-muted btn-sm" onclick="event.stopPropagation()">Pending</button>
+          </div>
+          <div class="user-row" onclick="go('s-profile-other')">
+            <div class="av av-m av-green">JK</div>
+            <div style="flex:1"><div class="user-name">Julia K.</div><div class="user-handle">@juliak · 14 activities</div></div>
+            <button class="btn btn-green btn-sm" onclick="event.stopPropagation()" style="display:inline-flex;align-items:center;gap:5px;"><svg class="ico" width="14" height="14"><use href="#ico-check"/></svg> Connected</button>
+          </div>
+          <div class="user-row" onclick="go('s-profile-other')">
+            <div class="av av-m av-blue">TW</div>
+            <div style="flex:1"><div class="user-name">Tomek W.</div><div class="user-handle">@tomekw · 5 activities</div></div>
+            <button class="btn btn-green btn-sm" onclick="event.stopPropagation()" style="display:inline-flex;align-items:center;gap:5px;"><svg class="ico" width="14" height="14"><use href="#ico-check"/></svg> Connected</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ───────────── NOTIFICATIONS ───────────── -->
+    <div class="screen" id="s-notifications">
+      <div class="screen-header">
+        <span class="screen-title">Notifications</span>
+      </div>
+
+      <div class="notif-row unread">
+        <div class="unread-dot"></div>
+        <div class="av av-s av-purple">KB</div>
+        <div class="notif-body">
+          <div class="notif-text"><strong>Kasia B.</strong> invited you to <strong>Movie Night — Dune 3</strong></div>
+          <div class="notif-time">2h ago</div>
+        </div>
+      </div>
+
+      <div class="notif-row unread">
+        <div class="unread-dot"></div>
+        <div class="av av-s av-teal">MR</div>
+        <div class="notif-body">
+          <div class="notif-text"><strong>Marco R.</strong> accepted your follow request</div>
+          <div class="notif-time">5h ago</div>
+        </div>
+      </div>
+
+      <div class="notif-row unread">
+        <div class="unread-dot"></div>
+        <div class="av av-s av-pink">AM</div>
+        <div class="notif-body">
+          <div class="notif-text"><strong>Anna M.</strong> sent you a follow request</div>
+          <div class="notif-time">Yesterday</div>
+          <div class="notif-btns">
+            <button class="btn btn-secondary btn-sm">Decline</button>
+            <button class="btn btn-primary btn-sm">Accept</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="notif-row">
+        <div class="no-dot"></div>
+        <div class="av av-s av-blue">TW</div>
+        <div class="notif-body">
+          <div class="notif-text"><strong>Tomek W.</strong> joined your <strong>Tennis Doubles</strong></div>
+          <div class="notif-time">2d ago</div>
+        </div>
+      </div>
+
+      <div class="notif-row">
+        <div class="no-dot"></div>
+        <div class="av av-s av-green">JK</div>
+        <div class="notif-body">
+          <div class="notif-text"><strong>Julia K.</strong> accepted your follow request</div>
+          <div class="notif-time">3d ago</div>
+        </div>
+      </div>
+
+      <div class="notif-row">
+        <div class="no-dot"></div>
+        <div class="av av-s av-purple">KB</div>
+        <div class="notif-body">
+          <div class="notif-text"><strong>Kasia B.</strong> declined your invitation to <strong>Climbing Session</strong></div>
+          <div class="notif-time">4d ago</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ───────────── MY PROFILE ───────────── -->
+    <div class="screen" id="s-profile-own">
+      <div class="profile-top">
+        <div class="av av-l av-orange">PK</div>
+        <div class="profile-name">Piotr K.</div>
+        <div class="profile-handle">@piotrek</div>
+        <div class="profile-bio">Running, board games & good coffee ☕ Based in Wrocław</div>
+        <div class="profile-stats">
+          <div class="stat"><div class="stat-val">12</div><div class="stat-lbl">Connected</div></div>
+          <div class="stat"><div class="stat-val">8</div><div class="stat-lbl">Activities</div></div>
+        </div>
+        <button class="btn btn-secondary btn-sm" style="margin-top:16px;display:inline-flex;align-items:center;gap:6px;"><svg class="ico" width="14" height="14"><use href="#ico-pencil"/></svg> Edit Profile</button>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab(this)">Upcoming</div>
+        <div class="tab" onclick="switchTab(this)">Past</div>
+      </div>
+
+      <div style="padding:12px 0 20px;">
+        <div class="mini-card" onclick="go('s-detail-open')">
+          <div class="mini-top">
+            <span class="mini-emoji"><svg class="ico" width="18" height="18"><use href="#ico-dumbbell"/></svg></span>
+            <div>
+              <div class="mini-title">Morning Run 5K</div>
+              <div class="mini-meta">Tomorrow · 7:00 · Park Szczytnicki</div>
+            </div>
+          </div>
+          <div class="mini-footer">
+            <span style="font-size:13px;color:var(--text-3);">3 / 8 going</span>
+            <span class="chip chip-orange" style="font-size:10px;">Your activity</span>
+          </div>
+        </div>
+
+        <div class="mini-card" onclick="go('s-detail-open')">
+          <div class="mini-top">
+            <span class="mini-emoji"><svg class="ico" width="18" height="18"><use href="#ico-dice"/></svg></span>
+            <div>
+              <div class="mini-title">Board Game Night</div>
+              <div class="mini-meta">Saturday · 19:00 · Tomek's place</div>
+            </div>
+          </div>
+          <div class="mini-footer">
+            <span style="font-size:13px;color:var(--text-3);">5 going</span>
+            <span class="chip chip-green">Joined</span>
+          </div>
+        </div>
+
+        <div class="mini-card" onclick="go('s-detail-private')">
+          <div class="mini-top">
+            <span class="mini-emoji"><svg class="ico" width="18" height="18"><use href="#ico-film"/></svg></span>
+            <div>
+              <div class="mini-title" style="display:flex;align-items:center;gap:5px;">Movie Night — Dune 3 <svg class="ico" width="13" height="13" style="color:var(--text-3);flex-shrink:0;"><use href="#ico-lock"/></svg></div>
+              <div class="mini-meta">Friday · 20:30 · Helios Cinema</div>
+            </div>
+          </div>
+          <div class="mini-footer">
+            <span style="font-size:13px;color:var(--text-3);">4 invited</span>
+            <span class="chip chip-gray">Pending</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ───────────── OTHER PROFILE ───────────── -->
+    <div class="screen" id="s-profile-other">
+      <div class="screen-header">
+        <div class="back-btn" id="other-profile-back" onclick="goBack()"><svg class="ico" width="26" height="26"><use href="#ico-chevron-left"/></svg></div>
+        <span class="screen-title">Profile</span>
+      </div>
+      <div class="profile-top" style="border-bottom:0.5px solid var(--border);">
+        <div class="av av-l av-pink">AM</div>
+        <div class="profile-name">Anna M.</div>
+        <div class="profile-handle">@annam</div>
+        <div class="profile-bio">Trail runner & hiker 🏔️ Based in Wrocław</div>
+        <div class="profile-stats">
+          <div class="stat"><div class="stat-val">34</div><div class="stat-lbl">Connected</div></div>
+          <div class="stat"><div class="stat-val">21</div><div class="stat-lbl">Activities</div></div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top:16px;">Follow</button>
+      </div>
+      <!-- Not connected: locked state -->
+      <div style="padding:48px 24px;text-align:center;">
+        <div style="margin-bottom:12px;color:var(--text-3);"><svg class="ico" width="40" height="40"><use href="#ico-lock"/></svg></div>
+        <div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px;">Connect to see activities</div>
+        <div style="font-size:14px;color:var(--text-3);line-height:1.55;">Anna's activities are only visible<br>to people she's connected with.</div>
+      </div>
+    </div>
+
+  </div><!-- end screen-area -->
+
+  <!-- Bottom nav -->
+  <div class="bottom-nav">
+    <div class="nav-item active" id="nav-0" onclick="go('s-feed',0)">
+      <svg class="ico" width="24" height="24"><use href="#ico-home"/></svg>
+      <span class="nav-label">Feed</span>
+    </div>
+    <div class="nav-item" id="nav-1" onclick="go('s-search',1)">
+      <svg class="ico" width="24" height="24"><use href="#ico-search"/></svg>
+      <span class="nav-label">Search</span>
+    </div>
+    <div class="nav-plus-wrap" onclick="go('s-create',2)">
+      <div class="nav-plus"><span>+</span></div>
+    </div>
+    <div class="nav-item" id="nav-3" onclick="go('s-notifications',3)">
+      <svg class="ico" width="24" height="24"><use href="#ico-bell"/></svg>
+      <span class="nav-label">Alerts</span>
+    </div>
+    <div class="nav-item" id="nav-4" onclick="go('s-profile-own',4)">
+      <svg class="ico" width="24" height="24"><use href="#ico-user"/></svg>
+      <span class="nav-label">Profile</span>
+    </div>
+  </div>
+
+</div><!-- end phone -->
+
+<!-- Screen navigator -->
+<div class="screen-nav" id="screen-nav">
+  <button class="snav-btn" onclick="jumpTo('s-login','Login')">Login</button>
+  <button class="snav-btn" id="snav-feed" onclick="jumpTo('s-feed','Feed')">Feed</button>
+  <button class="snav-btn" onclick="jumpTo('s-feed-empty','Feed (empty)')">Feed (empty)</button>
+  <button class="snav-btn" onclick="jumpTo('s-detail-open');showDetailView('open')">Activity (spots left)</button>
+  <button class="snav-btn" onclick="jumpTo('s-detail-open');showDetailView('full')">Activity (full)</button>
+  <button class="snav-btn" onclick="jumpTo('s-detail-open');showDetailView('unlimited')">Activity (no limit)</button>
+  <button class="snav-btn" onclick="jumpTo('s-detail-open');showDetailView('creator')">Activity (creator)</button>
+  <button class="snav-btn" onclick="jumpTo('s-detail-private','Activity (private)')">Activity (private)</button>
+  <button class="snav-btn" onclick="jumpTo('s-create','Create')">Create</button>
+  <button class="snav-btn" onclick="jumpTo('s-search','Search')">Search</button>
+  <button class="snav-btn" onclick="jumpTo('s-notifications','Notifications')">Notifications</button>
+  <button class="snav-btn" onclick="jumpTo('s-profile-own','My Profile')">My Profile</button>
+  <button class="snav-btn" onclick="jumpTo('s-profile-other','Other Profile')">Other Profile</button>
+</div>
+
+<script>
+const TAB_MAP = {
+  's-feed': 0, 's-search': 1, 's-create': 2, 's-notifications': 3, 's-profile-own': 4
+};
+
+let prevScreen = 's-feed';
+let currentScreen = 's-feed';
+
+function go(id, tabIndex) {
+  prevScreen = currentScreen;
+  currentScreen = id;
+
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('screen-area').scrollTop = 0;
+
+  const ti = tabIndex !== undefined ? tabIndex : TAB_MAP[id];
+  updateNav(ti);
+}
+
+function goBack() {
+  go(prevScreen, TAB_MAP[prevScreen]);
+}
+
+function updateNav(activeIndex) {
+  [0,1,3,4].forEach(i => {
+    const el = document.getElementById('nav-' + i);
+    if (el) el.classList.toggle('active', i === activeIndex);
+  });
+}
+
+function jumpTo(id, label) {
+  go(id, TAB_MAP[id]);
+}
+
+// Nav button highlight — driven by click, not by screen ID matching
+document.querySelectorAll('.snav-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.snav-btn').forEach(b => b.classList.remove('current'));
+    this.classList.add('current');
+  });
+});
+
+// Category chip selection
+document.querySelectorAll('.cat-chip').forEach(chip => {
+  chip.addEventListener('click', function() {
+    document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('selected'));
+    this.classList.add('selected');
+  });
+});
+
+// Profile tabs
+function switchTab(el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Visibility toggle
+function setVisibility(mode) {
+  document.getElementById('vis-followers').classList.toggle('active', mode === 'followers');
+  document.getElementById('vis-private').classList.toggle('active', mode === 'private');
+  document.getElementById('invitees-group').style.display = mode === 'private' ? 'block' : 'none';
+}
+
+// Theme toggle
+let isDark = false;
+function toggleTheme() {
+  isDark = !isDark;
+  document.getElementById('phone').classList.toggle('dark', isDark);
+  const btn = document.getElementById('theme-toggle');
+  btn.textContent = isDark ? '🌙 Dark mode' : '☀️ Light mode';
+}
+
+// Detail screen: attendee (open / full / unlimited) vs creator view
+function showDetailView(mode) {
+  const actionJoin      = document.getElementById('detail-action-join');
+  const actionFull      = document.getElementById('detail-action-full');
+  const actionCreator   = document.getElementById('action-bar-creator');
+  const spotsCapped     = document.getElementById('detail-spots-capped');
+  const spotsUnlimited  = document.getElementById('detail-spots-unlimited');
+  const spotsCount      = document.getElementById('detail-spots-count');
+  const spotsFill       = document.getElementById('detail-spots-fill');
+
+  // Reset all
+  [actionJoin, actionFull, actionCreator].forEach(el => el.style.display = 'none');
+  spotsCapped.style.display    = 'none';
+  spotsUnlimited.style.display = 'none';
+
+  if (mode === 'open') {
+    spotsCount.textContent = '3 of 8 spots';
+    spotsCount.style.color = '';
+    spotsCount.style.fontWeight = '';
+    spotsFill.style.width = '37.5%';
+    spotsFill.style.background = '';
+    spotsCapped.style.display   = '';
+    actionJoin.style.display    = '';
+  } else if (mode === 'full') {
+    spotsCount.textContent = '8 of 8 · Full';
+    spotsCount.style.color = 'var(--red)';
+    spotsCount.style.fontWeight = '600';
+    spotsFill.style.width = '100%';
+    spotsFill.style.background = 'var(--red)';
+    spotsCapped.style.display   = '';
+    actionFull.style.display    = 'flex';
+    actionFull.style.flexDirection = 'column';
+    actionFull.style.gap = '6px';
+  } else if (mode === 'unlimited') {
+    spotsUnlimited.style.display = '';
+    actionJoin.style.display     = '';
+  } else if (mode === 'creator') {
+    spotsCount.textContent = '3 of 8 spots';
+    spotsCount.style.color = '';
+    spotsCount.style.fontWeight = '';
+    spotsFill.style.width = '37.5%';
+    spotsFill.style.background = '';
+    spotsCapped.style.display   = '';
+    actionCreator.style.display = '';
+  }
+}
+
+// Cancellation modal
+function openCancelModal() {
+  document.getElementById('cancel-modal').classList.add('open');
+}
+function closeCancelModal() {
+  document.getElementById('cancel-modal').classList.remove('open');
+}
+
+// Start on feed
+go('s-feed', 0);
+showDetailView('open');
+document.getElementById('snav-feed').classList.add('current');
+</script>
+</body>
+</html>
