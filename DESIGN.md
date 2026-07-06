@@ -455,7 +455,29 @@ Tab 5: Profile (me)
 
 ---
 
-## 10. Design System
+## 10. Infrastructure
+
+### 10.1 Mobile App
+
+| Setting | Value |
+|---|---|
+| Bundle ID (iOS) | `com.upforsomething.app` |
+| Application ID (Android) | `com.upforsomething.app` |
+| Expo slug | `upforsomething` |
+| App name (display) | `Up for Something` |
+
+### 10.2 Supabase
+
+| Setting | Value |
+|---|---|
+| Region | `eu-central-1` (Frankfurt) |
+| Project name | `upforsomething` |
+
+All schema, RLS policies, Edge Functions, and seed data are managed as code under `supabase/` in the monorepo and applied via the Supabase CLI in CI/CD (see §8 monorepo structure).
+
+---
+
+## 11. Design System
 
 ### 10.1 Color Palette
 
@@ -603,7 +625,7 @@ Avoid: people/figure silhouettes (generic), map pins (overused in social apps), 
 
 ---
 
-## 11. Future Considerations (v2+)
+## 12. Future Considerations (v2+)
 
 - **Settings / account screen**: Logout, account deletion (GDPR), push notification preferences (per-event-type toggles), profile privacy controls
 - **Public profiles & geo-based discovery**: Profiles opt into public mode; a separate "Nearby" feed shows public activities within a configurable radius (requires geospatial indexing, e.g. PostGIS or `earthdistance` extension)

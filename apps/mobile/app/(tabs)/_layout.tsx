@@ -40,8 +40,10 @@ export default function TabLayout() {
               <Plus size={28} color="#fff" strokeWidth={2} />
             </View>
           ),
-          tabBarButton: (props) => (
-            <Pressable {...props} style={styles.createBtnWrap} />
+          tabBarButton: ({ onPress, children }) => (
+            <Pressable onPress={onPress} style={styles.createBtnWrap}>
+              {children}
+            </Pressable>
           ),
         }}
       />

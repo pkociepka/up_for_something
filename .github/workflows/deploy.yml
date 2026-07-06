@@ -1,0 +1,49 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  migrate:
+    name: Apply DB migrations
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Apply migrations
+        # supabase db push is idempotent — already-applied migrations are skipped.
+        # SUPABASE_DB_URL format: postgresql://postgres:<password>@db.<project-ref>.supabase.co:5432/postgres
+        # Set this secret in: GitHub repo → Settings → Secrets and variables → Actions
+        run: supabase db push --db-url "${{ secrets.SUPABASE_DB_URL }}"
+
+  # ── EAS Update (OTA) ──────────────────────────────────────────────────────
+  # Uncomment once you have configured EAS:
+  #   1. npx expo install expo-updates
+  #   2. eas update:configure   (run once locally, commits eas.json + app.json changes)
+  #   3. Add EXPO_TOKEN to GitHub secrets (https://expo.dev → Account settings → Access tokens)
+  #
+  # ota-update:
+  #   name: EAS OTA update
+  #   runs-on: ubuntu-latest
+  #   needs: migrate
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 20
+  #         cache: npm
+  #         cache-dependency-path: apps/mobile/package-lock.json
+  #     - run: npm ci --legacy-peer-deps
+  #       working-directory: apps/mobile
+  #     - uses: expo/expo-github-action@v8
+  #       with:
+  #         eas-version: latest
+  #         token: ${{ secrets.EXPO_TOKEN }}
+  #     - name: Publish OTA update
+  #       run: eas update --branch production --message "Deploy ${{ github.sha }}"
+  #       working-directory: apps/mobile
