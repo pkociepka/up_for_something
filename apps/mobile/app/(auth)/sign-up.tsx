@@ -22,6 +22,7 @@ export default function SignUpScreen() {
   const [displayName, setDisplayName] = useState('');
   const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(false);
+  const [pendingEmail, setPendingEmail] = useState<string | null>(null);
 
   async function signUp() {
     if (!email || !password || !displayName || !username) {
@@ -41,7 +42,7 @@ export default function SignUpScreen() {
     }
 
     setLoading(true);
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: email.trim(),
       password,
       options: {
@@ -53,7 +54,19 @@ export default function SignUpScreen() {
     });
     setLoading(false);
 
-    if (error) Alert.alert('Sign up failed', error.message);
+    if (error) {
+      Alert.alert('Sign up failed', error.message);
+      return;
+    }
+
+    // session is null when email confirmation is required
+    if (!data.session) {
+      setPendingEmail(email.trim());
+    }
+  }
+
+  if (pendingEmail) {
+    return <ConfirmationPending email={pendingEmail} onBack={() => setPendingEmail(null)} />;
   }
 
   return (
@@ -135,6 +148,28 @@ export default function SignUpScreen() {
   );
 }
 
+function ConfirmationPending({ email, onBack }: { email: string; onBack: () => void }) {
+  const theme = useTheme();
+  return (
+    <View style={[styles.confirmation, { backgroundColor: theme.bgScreen }]}>
+      <Text style={{ fontSize: 48 }}>📬</Text>
+      <Text style={[typography.title2, { color: theme.textPrimary, marginTop: spacing.lg, textAlign: 'center' }]}>
+        Check your inbox
+      </Text>
+      <Text style={[typography.body, { color: theme.textSecondary, marginTop: spacing.sm, textAlign: 'center' }]}>
+        We sent a confirmation link to{'\n'}
+        <Text style={{ color: theme.textPrimary, fontWeight: '600' }}>{email}</Text>
+      </Text>
+      <Text style={[typography.subhead, { color: theme.textTertiary, marginTop: spacing.lg, textAlign: 'center' }]}>
+        Open the link in that email to activate your account, then sign in here.
+      </Text>
+      <Pressable onPress={onBack} style={{ marginTop: spacing['3xl'] }}>
+        <Text style={[typography.callout, { color: theme.primary }]}>Use a different email</Text>
+      </Pressable>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   scroll: {
     flexGrow: 1,
@@ -155,5 +190,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: spacing['2xl'],
+  },
+  confirmation: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: spacing['3xl'],
   },
 });
