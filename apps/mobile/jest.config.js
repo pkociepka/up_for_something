@@ -3,8 +3,8 @@ const config = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   testMatch: ['<rootDir>/e2e/**/*.test.ts'],
-  globals: {
-    'ts-jest': {
+  transform: {
+    '^.+\\.tsx?$': ['ts-jest', {
       tsconfig: {
         target: 'ES2020',
         module: 'CommonJS',
@@ -15,7 +15,7 @@ const config = {
         baseUrl: '.',
         paths: { '@/*': ['./*'] },
       },
-    },
+    }],
   },
   testTimeout: 30000,
   setupFiles: ['<rootDir>/e2e/setup-env.js'],

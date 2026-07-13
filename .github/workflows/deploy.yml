@@ -10,7 +10,7 @@ jobs:
   migrate:
     name: Apply DB migrations
     runs-on: ubuntu-latest
-    # Only run when CI passed; the environment gate requires manual approval.
+    # Only run when the entire CI workflow passed (typecheck + integration tests).
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     environment: production
     steps:
