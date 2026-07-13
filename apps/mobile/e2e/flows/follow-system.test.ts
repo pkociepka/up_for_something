@@ -19,10 +19,10 @@ describe('Follow system', () => {
 
   describe('pending request visibility', () => {
     beforeAll(async () => {
-      // alice → bob
-      await alice.client
+      const { error } = await alice.client
         .from('follow_requests')
         .insert({ requester_id: alice.id, target_id: bob.id, status: 'pending' });
+      if (error) throw error;
     });
 
     it('requester (alice) can see the pending request', async () => {
