@@ -5,6 +5,7 @@ node_modules/
 .env
 .env.*
 !.env.example
+!apps/mobile/e2e/env.test.example
 
 # macOS
 .DS_Store

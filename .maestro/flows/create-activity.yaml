@@ -1,0 +1,33 @@
+# Smoke test: create a followers-visibility activity as a signed-in user.
+# Prerequisites: app running in dev build, user already signed in.
+# Run with: maestro test .maestro/flows/create-activity.yaml
+
+appId: com.upforsomething.app
+---
+- launchApp
+- assertVisible: "Feed"
+
+# Open the Create tab (floating + button in tab bar)
+- tapOn: "+"
+
+- assertVisible: "New Activity"
+
+# Fill in required fields
+- tapOn:
+    text: "What are you up to?"
+- inputText: "Morning Run in the Park"
+
+- tapOn:
+    text: "Place name or address"
+- inputText: "Riverside Trail"
+
+# Category defaults to "Other" — leave it as is
+
+# Date defaults to now+2h which is future — leave it
+
+# Submit
+- tapOn: "Publish"
+
+# Should redirect to the activity detail screen
+- assertVisible: "Morning Run in the Park"
+- assertVisible: "Join"

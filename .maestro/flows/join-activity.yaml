@@ -1,0 +1,24 @@
+# Smoke test: follower joins an activity and sees the button change to "Leave".
+# Prerequisites:
+#   - App running in dev build
+#   - Signed in as a user who is a mutual follower of someone with an upcoming activity
+#   - That activity is visible in the feed
+# Run with: maestro test .maestro/flows/join-activity.yaml
+
+appId: com.upforsomething.app
+---
+- launchApp
+- assertVisible: "Feed"
+
+# Tap the first activity card in the feed
+- tapOn:
+    index: 0
+    type: "com.upforsomething.app:id/activityCard"
+
+# Fallback: if no testID, tap the first visible activity title area
+# by looking for the Join button on whatever activity is open
+- assertVisible: "Join"
+- tapOn: "Join"
+
+# Button should flip to "Leave" once joined
+- assertVisible: "Leave"
